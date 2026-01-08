@@ -1,51 +1,55 @@
 "use client";
-import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import heroPoster from "../../assets/hero-poster.jpg";
 
 const HeroSection = () => {
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-primary">
+    <section className="relative h-screen w-full overflow-hidden bg-black">
       <div className="absolute inset-0">
         <img
-          src={heroPoster.src}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover"
+          src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1920&h=1080&fit=crop"
+          alt="Luxury Building"
+          className="absolute inset-0 w-full h-full object-cover opacity-70"
+          style={{
+            animation: "zoomIn 1.5s cubic-bezier(0.22, 1, 0.36, 1) both",
+          }}
         />
-
-        <div className="absolute inset-0 gradient-overlay" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%)",
+          }}
+        />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-primary-foreground px-6">
-        {/* Main Title */}
-        <motion.div
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-6">
+        <div
           className="text-center"
+          style={{
+            animation:
+              "fadeScale 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both",
+          }}
         >
-          <h1 className="text-display text-white mb-4">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-wider mb-6">
             <span className="font-serif italic">P</span>ROSPER
           </h1>
-          <div className="flex flex-col items-center gap-1 text-white text-sm md:text-base tracking-[0.3em] uppercase">
+          <div className="flex flex-col items-center gap-1 text-sm md:text-base tracking-[0.3em] uppercase font-light">
             <span>1042</span>
-            <span>Atlantic</span>
-            <span>Ave</span>
+            <span>ATLANTIC</span>
+            <span>AVE</span>
           </div>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Floating Book a Tour Button */}
-      <motion.a
+      <a
         href="#availability"
-        initial={{ x: 100 }}
-        animate={{ x: 0 }}
-        transition={{ duration: 0.8, delay: 1 }}
-        className="floating-cta hidden md:flex"
+        className="fixed right-0 top-1/2 -translate-y-1/2 bg-[#98523C] text-white px-3 py-2 text-sm tracking-widest font-light hover:bg-[#344237] transition-all duration-300 z-40 hidden md:block"
+        style={{
+          writingMode: "vertical-rl",
+          animation: "slideInRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1s both",
+        }}
       >
         BOOK A TOUR
-      </motion.a>
+      </a>
     </section>
   );
 };

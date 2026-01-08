@@ -1,152 +1,7 @@
-// "use client";
-// import { useState, useEffect } from "react";
-// import { motion, AnimatePresence } from "framer-motion";
-// import { Menu, X } from "lucide-react";
-
-// const Header = () => {
-//   const [isScrolled, setIsScrolled] = useState(false);
-//   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-//   useEffect(() => {
-//     const handleScroll = () => {
-//       setIsScrolled(window.scrollY > 50);
-//     };
-
-//     window.addEventListener("scroll", handleScroll, { passive: true });
-//     return () => window.removeEventListener("scroll", handleScroll);
-//   }, []);
-
-//   const navLinks = [
-//     { name: "Residences", href: "#residences" },
-//     { name: "Amenities", href: "#amenities" },
-//     { name: "Neighborhood", href: "#neighborhood" },
-//     { name: "Availability", href: "#availability" },
-//   ];
-
-//   return (
-//     <>
-//       <motion.header
-//         initial={{ y: -100 }}
-//         animate={{ y: 0 }}
-//         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-//         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-//           isScrolled
-//             ? "bg-background/95 backdrop-blur-md shadow-sm"
-//             : "bg-transparent"
-//         }`}
-//       >
-//         {/* Top Banner */}
-//         {/* <div className="bg-primary text-white text-center py-2 px-4">
-//           <p className="text-label text-xs">
-//             NOW LEASING, SCHEDULE A TOUR AND{" "}
-//             <a href="#availability" className="underline hover:no-underline">
-//               APPLY NOW
-//             </a>
-//           </p>
-//         </div> */}
-
-//         <nav className="flex items-center justify-between text-white px-6 md:px-12 py-4">
-//           <button
-//             onClick={() => setIsMenuOpen(true)}
-//             className={`flex items-center gap-2 text-label  transition-colors ${
-//               isScrolled ? "text-foreground" : "text-primary-foreground"
-//             }`}
-//           >
-//             <Menu className="w-5 h-5" />
-//             <span className="hidden md:inline">MENU</span>
-//           </button>
-
-//           {/* Logo */}
-//           <a href="#" className="absolute left-1/2 -translate-x-1/2">
-//             <motion.div
-//               initial={{ opacity: 0, scale: 0.8 }}
-//               animate={{ opacity: 1, scale: 1 }}
-//               transition={{ duration: 0.6, delay: 0.2 }}
-//               className={`font-serif text-3xl md:text-4xl italic transition-colors ${
-//                 isScrolled ? "text-foreground" : "text-primary-foreground"
-//               }`}
-//             >
-//               P
-//             </motion.div>
-//           </a>
-
-//           {/* Right Nav */}
-//           <div className="flex items-center gap-4">
-//             <a
-//               href="/"
-//               className={`text-label px-4 py-2 border transition-all duration-300 hover:bg-foreground hover:text-background ${
-//                 isScrolled
-//                   ? "border-foreground text-foreground"
-//                   : "border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
-//               }`}
-//             >
-//               AVAILABILITY
-//             </a>
-//           </div>
-//         </nav>
-//       </motion.header>
-
-//       {/* Full Screen Menu */}
-//       <AnimatePresence>
-//         {isMenuOpen && (
-//           <motion.div
-//             initial={{ opacity: 0 }}
-//             animate={{ opacity: 1 }}
-//             exit={{ opacity: 0 }}
-//             transition={{ duration: 0.3 }}
-//             className="fixed inset-0 z-[60] bg-primary"
-//           >
-//             <div className="absolute top-0 right-0 p-6">
-//               <button
-//                 onClick={() => setIsMenuOpen(false)}
-//                 className="text-primary-foreground hover:opacity-70 transition-opacity"
-//               >
-//                 <X className="w-8 h-8" />
-//               </button>
-//             </div>
-
-//             <div className="flex flex-col items-center justify-center h-full">
-//               {navLinks.map((link, index) => (
-//                 <motion.a
-//                   key={link.name}
-//                   href={link.href}
-//                   initial={{ opacity: 0, y: 30 }}
-//                   animate={{ opacity: 1, y: 0 }}
-//                   transition={{ duration: 0.5, delay: index * 0.1 }}
-//                   onClick={() => setIsMenuOpen(false)}
-//                   className="text-headline text-primary-foreground py-4 link-underline"
-//                 >
-//                   {link.name}
-//                 </motion.a>
-//               ))}
-
-//               <motion.div
-//                 initial={{ opacity: 0 }}
-//                 animate={{ opacity: 1 }}
-//                 transition={{ duration: 0.5, delay: 0.5 }}
-//                 className="mt-12"
-//               >
-//                 <a
-//                   href="#availability"
-//                   onClick={() => setIsMenuOpen(false)}
-//                   className="btn-outline text-primary-foreground border-primary-foreground"
-//                 >
-//                   VIEW AVAILABILITY
-//                 </a>
-//               </motion.div>
-//             </div>
-//           </motion.div>
-//         )}
-//       </AnimatePresence>
-//     </>
-//   );
-// };
-
-// export default Header;
-
 "use client";
 import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -175,9 +30,9 @@ const Header = () => {
   const navLinks = [
     { name: "RESIDENCES", href: "#residences" },
     { name: "AMENITIES", href: "#amenities" },
-    { name: "NEIGHBORHOOD", href: "#neighborhood" },
+    { name: "NEIGHBORHOOD", href: "/neighborhood" },
     { name: "AVAILABILITY", href: "#availability" },
-    { name: "CONTACT", href: "#contact" },
+    { name: "CONTACT", href: "/contact" },
   ];
 
   return (
@@ -356,7 +211,6 @@ const Header = () => {
             </div> */}
           </div>
 
-          {/* Right Side - Image */}
           <div
             className="flex-1 relative overflow-hidden"
             style={{
@@ -388,59 +242,6 @@ const Header = () => {
           BOOK A TOUR
         </a>
       </div>
-
-      {/* Hero Section */}
-      <section className="relative h-screen w-full overflow-hidden bg-black">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1920&h=1080&fit=crop"
-            alt="Luxury Building"
-            className="absolute inset-0 w-full h-full object-cover opacity-70"
-            style={{
-              animation: "zoomIn 1.5s cubic-bezier(0.22, 1, 0.36, 1) both",
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%)",
-            }}
-          />
-        </div>
-
-        {/* Hero Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-6">
-          <div
-            className="text-center"
-            style={{
-              animation:
-                "fadeScale 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both",
-            }}
-          >
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-wider mb-6">
-              <span className="font-serif italic">P</span>ROSPER
-            </h1>
-            <div className="flex flex-col items-center gap-1 text-sm md:text-base tracking-[0.3em] uppercase font-light">
-              <span>1042</span>
-              <span>ATLANTIC</span>
-              <span>AVE</span>
-            </div>
-          </div>
-        </div>
-
-        <a
-          href="#availability"
-          className="fixed right-0 top-1/2 -translate-y-1/2 bg-[#98523C] text-white px-3 py-2 text-sm tracking-widest font-light hover:bg-[#344237] transition-all duration-300 z-40 hidden md:block"
-          style={{
-            writingMode: "vertical-rl",
-            animation:
-              "slideInRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1s both",
-          }}
-        >
-          BOOK A TOUR
-        </a>
-      </section>
 
       <style jsx>{`
         @keyframes slideDown {

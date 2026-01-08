@@ -21,12 +21,12 @@ const Footer = () => {
   }, []);
 
   const navigationLinks = [
-    { name: "HOMEPAGE", href: "#home" },
-    { name: "RESIDENCES", href: "#residences" },
-    { name: "AMENITIES", href: "#amenities" },
-    { name: "NEIGHBORHOOD", href: "#neighborhood" },
-    { name: "AVAILABILITY", href: "#availability" },
-    { name: "CONTACT", href: "#contact" },
+    { name: "HOMEPAGE", href: "#" },
+    { name: "RESIDENCES", href: "#" },
+    { name: "AMENITIES", href: "#" },
+    { name: "NEIGHBORHOOD", href: "#" },
+    { name: "AVAILABILITY", href: "#" },
+    { name: "CONTACT", href: "/contact" },
   ];
 
   const legalLinks = [
@@ -78,19 +78,6 @@ const Footer = () => {
             ))}
           </ul>
         </nav>
-
-        {/* Decorative Line */}
-        {/* <div className="relative flex justify-center mb-12 md:mb-16">
-          <div
-            className={`transition-all duration-1000 delay-700 ${
-              isInView ? "w-32 opacity-50" : "w-0 opacity-0"
-            }`}
-            style={{
-              height: "1px",
-              backgroundColor: "white",
-            }}
-          ></div>
-        </div> */}
 
         <div className="relative flex items-center justify-center mb-8">
           <div
@@ -172,12 +159,13 @@ const Footer = () => {
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-xs md:text-sm text-white/70">
+          <div className="flex flex-wrap justify-center gap-4 text-xs md:text-[13px] text-white/70">
             {legalLinks.map((link, index) => (
               <React.Fragment key={link.name}>
                 <a
                   href={link.href}
-                  className="hover:text-white transition-colors duration-300 tracking-wider"
+                  className="hover:text-white transition-colors duration-300"
+                  style={{ letterSpacing: "0.2em" }}
                 >
                   {link.name}
                 </a>
@@ -189,33 +177,30 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Copyright */}
         <div
           className={`text-center mt-8 md:mt-10 transition-all duration-1000 delay-1100 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-xs md:text-sm text-white/50 tracking-wider">
-            © {new Date().getFullYear()} PROSPER. ALL RIGHTS RESERVED.
-          </p>
-          <p className="text-xs text-white/40 mt-2 tracking-wider">
-            DESIGNED WITH EXCELLENCE
+          <p
+            className="text-[9px] text-white"
+            style={{
+              fontWeight: "400",
+              lineHeight: "19px",
+              letterSpacing: "0.2em",
+            }}
+          >
+            OWNER AND LEASING AGENT ARE PLEDGED TO THE LETTER AND SPIRIT OF U.S.
+            POLICY FOR THE ACHIEVEMENT OF EQUAL HOUSING OPPORTUNITY <br />{" "}
+            THROUGHOUT THE U.S. AND ARE COMMITTED TO AN AFFIRMATIVE ADVERTISING
+            AND MARKETING PROGRAM IN WHICH THERE ARE NO BARRIERS TO <br />{" "}
+            OBTAINING HOUSING BECAUSE OF RACE, COLOR, CREED, RELIGION, SEX,
+            SEXUAL ORIENTATION, MILITARY STATUS, AGE, DISABILITY, ANCESTRY,{" "}
+            <br />
+            FAMILY STATUS, NATIONAL ORIGIN, OR ANY OTHER GROUNDS PROHIBITED BY
+            CITY, STATE, OR FEDERAL LAW.{" "}
           </p>
         </div>
-
-        {/* Decorative Elements */}
-        <div
-          className="absolute top-10 left-10 w-16 h-16 border border-white/10 rounded-full"
-          style={{
-            animation: isInView ? "float 8s ease-in-out infinite" : "none",
-          }}
-        ></div>
-        <div
-          className="absolute bottom-10 right-10 w-20 h-20 border border-white/10 rounded-full"
-          style={{
-            animation: isInView ? "float 10s ease-in-out infinite 2s" : "none",
-          }}
-        ></div>
       </div>
 
       <style jsx>{`
