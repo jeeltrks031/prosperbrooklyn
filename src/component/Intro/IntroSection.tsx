@@ -1,84 +1,3 @@
-// "use client";
-// import { motion } from "framer-motion";
-// import { useScrollAnimation } from "../../hooks/useScrollAnimation";
-// import decorativeLeaf from "../../assets/decorative-leaf.png";
-
-// const IntroSection = () => {
-//   const { ref: titleRef, isInView: titleInView } = useScrollAnimation();
-//   const { ref: textRef, isInView: textInView } = useScrollAnimation({
-//     threshold: 0.2,
-//   });
-
-//   return (
-//     <section className="section-padding relative bg-secondary overflow-hidden">
-//       {/* Decorative Leaf */}
-//       <motion.img
-//         src={decorativeLeaf.src}
-//         alt=""
-//         className="absolute -top-20 -right-10 w-64 h-auto opacity-30 pointer-events-none"
-//         initial={{ opacity: 0, rotate: -20 }}
-//         animate={{ opacity: 0.3, rotate: 0 }}
-//         transition={{ duration: 1.5 }}
-//       />
-
-//       <div className="max-w-6xl mx-auto">
-//         {/* Title */}
-//         <div ref={titleRef} className="mb-16">
-//           <motion.h2
-//             initial={{ opacity: 0, y: 50 }}
-//             animate={titleInView ? { opacity: 1, y: 0 } : {}}
-//             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-//             className="text-headline leading-tight"
-//           >
-//             Studios to spacious
-//             <br />
-//             <span className="italic">two-bedroom</span> homes.
-//           </motion.h2>
-//         </div>
-
-//         {/* Subtitle and Description */}
-//         <div ref={textRef} className="grid md:grid-cols-2 gap-12 md:gap-20">
-//           <motion.div
-//             initial={{ opacity: 0, x: -40 }}
-//             animate={textInView ? { opacity: 1, x: 0 } : {}}
-//             transition={{ duration: 0.8, delay: 0.2 }}
-//           >
-//             <h3 className="text-subheadline mb-6">
-//               A home designed for growth, and the art of{" "}
-//               <span className="italic font-medium">living well</span>
-//             </h3>
-//           </motion.div>
-
-//           <motion.div
-//             initial={{ opacity: 0, x: 40 }}
-//             animate={textInView ? { opacity: 1, x: 0 } : {}}
-//             transition={{ duration: 0.8, delay: 0.4 }}
-//           >
-//             <p className="text-body-serif text-muted-foreground leading-relaxed">
-//               At Prosper, home isn't just where you live—it's where you thrive.
-//               Located in the heart of Prospect Heights, our residences are
-//               designed for comfort, style, and the joy of everyday moments. With
-//               thoughtfully crafted spaces, next-level amenities, and a
-//               neighborhood full of life, Prosper is where Brooklyn's energy
-//               meets modern luxury.
-//             </p>
-//           </motion.div>
-//         </div>
-//       </div>
-
-//       {/* Decorative Leaf Bottom */}
-//       <motion.img
-//         src={decorativeLeaf.src}
-//         alt=""
-//         className="absolute -bottom-32 -left-20 w-80 h-auto opacity-20 pointer-events-none rotate-180"
-//         style={{ transform: "rotate(180deg) scaleX(-1)" }}
-//       />
-//     </section>
-//   );
-// };
-
-// export default IntroSection;
-
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -157,15 +76,17 @@ const IntroSection = () => {
           </h2>
 
           {/* Decorative Line */}
-          <div
-            className={`mx-auto mt-12 transition-all duration-1000 delay-300 ${
-              titleInView ? "w-24 opacity-100" : "w-0 opacity-0"
-            }`}
-            style={{
-              height: "1px",
-              backgroundColor: "#BF843D",
-            }}
-          ></div>
+          <div className="relative flex items-center justify-center mb-8 md:mb-12">
+            <div
+              className={`mx-auto mt-12 transition-all duration-1000 delay-300 ${
+                titleInView ? "w-24 opacity-100" : "w-0 opacity-0"
+              }`}
+              style={{
+                height: "1px",
+                backgroundColor: "#BF843D",
+              }}
+            ></div>
+          </div>
         </div>
 
         {/* Content Grid */}

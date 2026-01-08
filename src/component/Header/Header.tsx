@@ -377,7 +377,7 @@ const Header = () => {
         <a
           href="#tour"
           onClick={() => setIsMenuOpen(false)}
-          className="fixed right-0 top-1/2 -translate-y-1/2 bg-[#BF843D] text-white px-4 py-3 text-sm tracking-widest font-light hover:bg-[#a87435] transition-colors duration-300"
+          className="fixed right-0 top-1/2 -translate-y-1/2 bg-[#98523C] text-white px-4 py-3 text-sm tracking-widest font-light hover:bg-[#a87435] transition-colors duration-300"
           style={{
             writingMode: "vertical-rl",
             animation: isMenuOpen
@@ -431,7 +431,7 @@ const Header = () => {
 
         <a
           href="#availability"
-          className="fixed right-0 top-1/2 -translate-y-1/2 bg-[#BF843D] text-white px-4 py-3 text-sm tracking-widest font-light hover:bg-[#a87435] transition-all duration-300 z-40 hidden md:block"
+          className="fixed right-0 top-1/2 -translate-y-1/2 bg-[#98523C] text-white px-3 py-2 text-sm tracking-widest font-light hover:bg-[#344237] transition-all duration-300 z-40 hidden md:block"
           style={{
             writingMode: "vertical-rl",
             animation:

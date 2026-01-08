@@ -1,5 +1,7 @@
 import Amenities from "@/src/component/Amenities/Amenities";
 import AmenitiesShowcase from "@/src/component/AmenitiesShowcase/AmenitiesShowcase";
+import Availability from "@/src/component/Availability/Availability";
+import Footer from "@/src/component/Footer/Footer";
 import Header from "@/src/component/Header/Header";
 import HeroSection from "@/src/component/Hero/HeroSection";
 import IntroSection from "@/src/component/Intro/IntroSection";
@@ -17,6 +19,8 @@ export default function Home() {
       <Amenities />
       <AmenitiesShowcase />
       <Neighborhood />
+      <Availability />
+      <Footer />
     </>
   );
 }
