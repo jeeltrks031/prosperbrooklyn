@@ -119,8 +119,8 @@ const NeighborhoodMapSection = () => {
               <div
                 key={category.id}
                 className={`border-b border-white/20 transition-all duration-1000 ${isInView
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 -translate-x-12"
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-12"
                   }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >

@@ -1,27 +1,28 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { ChevronDown, Send } from "lucide-react";
+import { Send } from "lucide-react";
+
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbweSMZOSDlky5opDFL3htvgzCJcGFOWhAnOTeWjRyicPG4XOKRTrTbFewCHpUnsr7qa/exec";
 
 const ContactFormSection = () => {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const [isInView, setIsInView] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
-    unitPreference: "",
-    priceRange: "",
-    hearAboutUs: "",
-    message: "",
+    ip: "",
+    project_id: "prosperbrooklyn",
   });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-        }
+        if (entry.isIntersecting) setIsInView(true);
       },
       { threshold: 0.2 }
     );
@@ -31,46 +32,63 @@ const ContactFormSection = () => {
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
-    alert("Thank you! Your inquiry has been submitted.");
-    // Add your form submission logic here
+  const getUserIP = async () => {
+    try {
+      const res = await fetch("https://api.ipify.org?format=json");
+      const data = await res.json();
+      return data.ip;
+    } catch {
+      return "Unknown";
+    }
   };
 
-  const unitOptions = [
-    "Studio",
-    "1 Bedroom",
-    "2 Bedrooms",
-    "3 Bedrooms",
-    "No Preference",
-  ];
+  const handleSubmit = async () => {
+    console.log("🚀 ~ handleSubmit ~ formData:", formData);
+    if (!formData.firstName || !formData.lastName || !formData.email) {
+      alert("Please fill all required fields.");
+      return;
+    }
 
-  const priceRanges = [
-    "Under $2,000",
-    "$2,000 - $3,000",
-    "$3,000 - $4,000",
-    "$4,000 - $5,000",
-    "Above $5,000",
-  ];
+    setLoading(true);
 
-  const hearAboutUsOptions = [
-    "Google Search",
-    "Social Media",
-    "Friend/Family",
-    "Real Estate Agent",
-    "Advertisement",
-    "Other",
-  ];
+    try {
+      const ip = await getUserIP();
+
+      const form = new FormData();
+      form.append("firstName", formData.firstName);
+      form.append("lastName", formData.lastName);
+      form.append("email", formData.email);
+      form.append("mobile", formData.phone);
+      form.append("ip", ip);
+      form.append("project_id", "prosperbrooklyn");
+
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: form,
+      });
+
+      alert("Thank you! Your inquiry has been submitted.");
+
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        ip: "",
+        project_id: "prosperbrooklyn",
+      });
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section
@@ -100,9 +118,8 @@ const ContactFormSection = () => {
         {/* Form */}
         <div className="space-y-6">
           <div
-            className={`grid md:grid-cols-2 gap-8 transition-all duration-1000 ${
-              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`grid md:grid-cols-2 gap-8 transition-all duration-1000 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             <div className="relative">
               <label className="block text-xs md:text-sm tracking-[0.2em] text-gray-700 font-light">
@@ -134,11 +151,9 @@ const ContactFormSection = () => {
             </div>
           </div>
 
-          {/* Email Address */}
           <div
-            className={`relative transition-all duration-1000 delay-200 ${
-              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`relative transition-all duration-1000 delay-200 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             <label className="block text-xs md:text-sm tracking-[0.2em] text-gray-700  font-light">
               EMAIL ADDRESS*
@@ -155,9 +170,8 @@ const ContactFormSection = () => {
 
           {/* Phone */}
           <div
-            className={`relative transition-all duration-1000 delay-300 ${
-              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`relative transition-all duration-1000 delay-300 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             <label className="block text-xs md:text-sm tracking-[0.2em] text-gray-700  font-light">
               PHONE
@@ -172,114 +186,10 @@ const ContactFormSection = () => {
             />
           </div>
 
-          {/* Unit Preference */}
-          <div
-            className={`relative transition-all duration-1000 delay-400 ${
-              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            <label className="block text-xs md:text-sm tracking-[0.2em] text-gray-700 font-light">
-              UNIT PREFERENCE
-            </label>
-            <div className="relative">
-              <select
-                name="unitPreference"
-                value={formData.unitPreference}
-                onChange={handleChange}
-                className="w-full bg-transparent border-b border-gray-400 py-3 text-gray-800 focus:border-gray-700 focus:outline-none transition-colors duration-300 appearance-none cursor-pointer"
-                style={{ letterSpacing: "0.05em" }}
-              >
-                <option value="">Select an option</option>
-                {unitOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-700 pointer-events-none" />
-            </div>
-          </div>
-
-          {/* Price Range */}
-          <div
-            className={`relative transition-all duration-1000 delay-500 ${
-              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            <label className="block text-xs md:text-sm tracking-[0.2em] text-gray-700  font-light">
-              PRICE RANGE
-            </label>
-            <div className="relative">
-              <select
-                name="priceRange"
-                value={formData.priceRange}
-                onChange={handleChange}
-                className="w-full bg-transparent border-b border-gray-400 py-3 text-gray-800 focus:border-gray-700 focus:outline-none transition-colors duration-300 appearance-none cursor-pointer"
-                style={{ letterSpacing: "0.05em" }}
-              >
-                <option value="">Select an option</option>
-                {priceRanges.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-700 pointer-events-none" />
-            </div>
-          </div>
-
-          <div
-            className={`relative transition-all duration-1000 delay-600 ${
-              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            <label className="block text-xs md:text-sm tracking-[0.2em] text-gray-700  font-light">
-              HOW DID YOU HEAR ABOUT US?*
-            </label>
-            <div className="relative">
-              <select
-                name="hearAboutUs"
-                value={formData.hearAboutUs}
-                onChange={handleChange}
-                className="w-full bg-transparent border-b border-gray-400 py-3 text-gray-800 focus:border-gray-700 focus:outline-none transition-colors duration-300 appearance-none cursor-pointer"
-                style={{ letterSpacing: "0.05em" }}
-              >
-                <option value="">Select an option</option>
-                {hearAboutUsOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-700 pointer-events-none" />
-            </div>
-          </div>
-
-          {/* Message */}
-          <div
-            className={`relative transition-all duration-1000 delay-700 ${
-              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            <label className="block text-xs md:text-sm tracking-[0.2em] text-gray-700  font-light">
-              MESSAGE
-            </label>
-            <textarea
-              name="message"
-              rows={4}
-              value={formData.message}
-              onChange={handleChange}
-              className="w-full bg-transparent border-b border-gray-400 py-3 text-gray-800 focus:border-gray-700 focus:outline-none transition-colors duration-300 resize-none"
-              style={{ letterSpacing: "0.05em" }}
-              placeholder="Tell us about your needs..."
-            />
-          </div>
-
           {/* Submit Button */}
           <div
-            className={`flex justify-center pt-3 transition-all duration-1000 delay-800 ${
-              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`flex justify-center pt-3 transition-all duration-1000 delay-800 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             <button
               onClick={handleSubmit}
@@ -308,3 +218,180 @@ const ContactFormSection = () => {
 };
 
 export default ContactFormSection;
+
+// "use client";
+// import React, { useEffect, useRef, useState } from "react";
+// import { Send } from "lucide-react";
+
+// const GOOGLE_SCRIPT_URL =
+//   "https://script.google.com/macros/s/AKfycbxtW1wEwveZCki3GUfepI4ex9oc4yUrsmwG4ajHmPlgNmi5arJYt5w0YGOvddHH8r0y/exec";
+
+// const ContactFormSection = () => {
+//   const sectionRef = useRef<HTMLDivElement | null>(null);
+//   const [isInView, setIsInView] = useState(false);
+//   const [loading, setLoading] = useState(false);
+
+//   const [formData, setFormData] = useState({
+//     firstName: "",
+//     lastName: "",
+//     email: "",
+//     phone: "",
+//     unitPreference: "",
+//     ip: "",
+//     project_id: "prosperbrooklyn",
+//   });
+
+//   useEffect(() => {
+//     const observer = new IntersectionObserver(
+//       ([entry]) => {
+//         if (entry.isIntersecting) setIsInView(true);
+//       },
+//       { threshold: 0.2 }
+//     );
+
+//     if (sectionRef.current) observer.observe(sectionRef.current);
+//     return () => observer.disconnect();
+//   }, []);
+
+//   const handleChange = (
+//     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+//   ) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const getUserIP = async () => {
+//     try {
+//       const res = await fetch("https://api.ipify.org?format=json");
+//       const data = await res.json();
+//       return data.ip;
+//     } catch {
+//       return "Unknown";
+//     }
+//   };
+
+//   const handleSubmit = async () => {
+//     if (!formData.firstName || !formData.lastName || !formData.email) {
+//       alert("Please fill all required fields.");
+//       return;
+//     }
+
+//     setLoading(true);
+
+//     try {
+//       const ip = await getUserIP();
+
+//       const form = new FormData();
+//       form.append("firstName", formData.firstName);
+//       form.append("lastName", formData.lastName);
+//       form.append("email", formData.email);
+//       form.append("mobile", formData.phone);
+//       form.append("ip", ip);
+//       form.append("project_id", "prosperbrooklyn");
+
+//       await fetch(GOOGLE_SCRIPT_URL, {
+//         method: "POST",
+//         body: form,
+//       });
+
+//       alert("Thank you! Your inquiry has been submitted.");
+
+//       setFormData({
+//         firstName: "",
+//         lastName: "",
+//         email: "",
+//         phone: "",
+//         unitPreference: "",
+//         ip: "",
+//         project_id: "prosperbrooklyn",
+//       });
+//     } catch (error) {
+//       alert("Something went wrong. Please try again.");
+//       console.error(error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <section
+//       ref={sectionRef}
+//       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#F5F1E8]"
+//     >
+//       <div className="relative z-10 max-w-4xl mx-auto px-6 sm:px-8 lg:px-16 w-full">
+//         <div className="space-y-6">
+//           <div
+//             className={`grid md:grid-cols-2 gap-8 transition-all duration-1000 ${isInView
+//               ? "opacity-100 translate-y-0"
+//               : "opacity-0 translate-y-8"
+//               }`}
+//           >
+//             <div>
+//               <label className="block text-xs md:text-sm tracking-[0.2em] text-gray-700 font-light">
+//                 FIRST NAME*
+//               </label>
+//               <input
+//                 type="text"
+//                 name="firstName"
+//                 value={formData.firstName}
+//                 onChange={handleChange}
+//                 className="w-full bg-transparent border-b border-gray-400 py-3"
+//               />
+//             </div>
+
+//             <div>
+//               <label className="block text-xs md:text-sm tracking-[0.2em] text-gray-700 font-light">
+//                 LAST NAME*
+//               </label>
+//               <input
+//                 type="text"
+//                 name="lastName"
+//                 value={formData.lastName}
+//                 onChange={handleChange}
+//                 className="w-full bg-transparent border-b border-gray-400 py-3"
+//               />
+//             </div>
+//           </div>
+
+//           <div>
+//             <label className="block text-xs md:text-sm tracking-[0.2em] text-gray-700 font-light">
+//               EMAIL ADDRESS*
+//             </label>
+//             <input
+//               type="email"
+//               name="email"
+//               value={formData.email}
+//               onChange={handleChange}
+//               className="w-full bg-transparent border-b border-gray-400 py-3"
+//             />
+//           </div>
+
+//           <div>
+//             <label className="block text-xs md:text-sm tracking-[0.2em] text-gray-700 font-light">
+//               PHONE
+//             </label>
+//             <input
+//               type="tel"
+//               name="phone"
+//               value={formData.phone}
+//               onChange={handleChange}
+//               className="w-full bg-transparent border-b border-gray-400 py-3"
+//             />
+//           </div>
+
+//           <div className="flex justify-center pt-3">
+//             <button
+//               onClick={handleSubmit}
+//               disabled={loading}
+//               className="inline-flex items-center gap-3 px-10 py-4 border-2 border-gray-700 text-gray-700 text-xs md:text-sm tracking-[0.2em] font-light hover:bg-gray-700 hover:text-white"
+//             >
+//               {loading ? "SENDING..." : "SUBMIT INQUIRY"}
+//               <Send className="w-5 h-5" />
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default ContactFormSection;

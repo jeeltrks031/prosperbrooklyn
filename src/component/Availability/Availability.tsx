@@ -22,6 +22,7 @@ const Availability = () => {
 
   return (
     <section
+      id="availability"
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-32"
     >
@@ -48,9 +49,8 @@ const Availability = () => {
 
       <div className="relative z-10 text-center px-6 sm:px-8 lg:px-16 max-w-5xl mx-auto">
         <div
-          className={`mb-8 md:mb-12 transition-all duration-1000 ${
-            isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mb-8 md:mb-12 transition-all duration-1000 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <span className="text-white text-xs md:text-[15px] tracking-[0.3em] font-light">
             AVAILABILITY
@@ -59,11 +59,10 @@ const Availability = () => {
 
         <div className="mb-8 md:mb-12">
           <h2
-            className={`text-4xl md:text-6xl xl:text-[66px] text-white transition-all duration-1000 delay-200 ${
-              isInView
+            className={`text-4xl md:text-6xl xl:text-[66px] text-white transition-all duration-1000 delay-200 ${isInView
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-12"
-            }`}
+              }`}
             style={{
               lineHeight: "60px",
               fontWeight: "300",
@@ -78,9 +77,8 @@ const Availability = () => {
         {/* Decorative Line */}
         <div className="relative flex items-center justify-center mb-8 md:mb-12">
           <div
-            className={`transition-all duration-1000 delay-400 ${
-              isInView ? "w-24 opacity-100" : "w-0 opacity-0"
-            }`}
+            className={`transition-all duration-1000 delay-400 ${isInView ? "w-24 opacity-100" : "w-0 opacity-0"
+              }`}
             style={{
               height: "150px",
               backgroundColor: "white",
@@ -90,9 +88,8 @@ const Availability = () => {
         </div>
 
         <div
-          className={`mb-10 md:mb-14 transition-all duration-1000 delay-500 ${
-            isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mb-10 md:mb-14 transition-all duration-1000 delay-500 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <p
             className="text-white text-sm lg:text-[15px] leading-relaxed max-w-3xl mx-auto"
@@ -110,9 +107,8 @@ const Availability = () => {
         </div>
 
         <div
-          className={`transition-all duration-1000 delay-700 ${
-            isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`transition-all duration-1000 delay-700 ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <a
             href="#availability"

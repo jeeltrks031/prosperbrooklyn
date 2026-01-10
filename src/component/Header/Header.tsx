@@ -1,11 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Lock, Mail, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,15 +39,54 @@ const Header = () => {
     { name: "CONTACT", href: "/contact" },
   ];
 
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+
+    // Check if we're on a different page and the link is a hash link
+    if (window.location.pathname !== '/' && href.startsWith('#')) {
+      // Redirect to home page with the hash
+      window.location.href = `/${href}`;
+      return;
+    }
+
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.location.href = href;
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      // Add your login logic here
+      console.log("Login attempt with:", { email, password });
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      alert("Login successful!");
+      setIsLoginModalOpen(false);
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Login failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       {/* Main Header */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
             ? "bg-white/95 backdrop-blur-md shadow-sm"
             : "bg-transparent"
-        }`}
+          }`}
         style={{
           animation: "slideDown 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
         }}
@@ -52,9 +95,8 @@ const Header = () => {
           {/* Left - Menu Button */}
           <button
             onClick={() => setIsMenuOpen(true)}
-            className={`flex items-center gap-3 cursor-pointer transition-colors duration-300 hover:opacity-70 ${
-              isScrolled ? "text-gray-800" : "text-white"
-            }`}
+            className={`flex items-center gap-3 cursor-pointer transition-colors duration-300 hover:opacity-70 ${isScrolled ? "text-gray-800" : "text-white"
+              }`}
           >
             <div className="flex flex-col gap-1.5">
               <span className="w-8 h-0.5 bg-current"></span>
@@ -68,7 +110,7 @@ const Header = () => {
 
           {/* Center - Logo */}
           <a
-            href="#"
+            href="/"
             className="absolute left-1/2 -translate-x-1/2"
             style={{
               animation:
@@ -76,9 +118,8 @@ const Header = () => {
             }}
           >
             <div
-              className={`transition-colors duration-300 ${
-                isScrolled ? "text-gray-800" : "text-white"
-              }`}
+              className={`transition-colors duration-300 ${isScrolled ? "text-gray-800" : "text-white"
+                }`}
             >
               <svg
                 width="60"
@@ -121,11 +162,22 @@ const Header = () => {
           </a>
 
           <div className="flex items-center gap-6">
+            {/* <a
+              href="/login"
+              className={`hidden md:inline text-sm tracking-widest font-light transition-colors duration-300 hover:opacity-70 ${isScrolled ? "text-gray-800" : "text-white"
+                }`}
+            >
+              RESIDENT LOGIN
+            </a> */}
+
             <a
-              href="#login"
-              className={`hidden md:inline text-sm tracking-widest font-light transition-colors duration-300 hover:opacity-70 ${
-                isScrolled ? "text-gray-800" : "text-white"
-              }`}
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsLoginModalOpen(true);
+              }}
+              className="text-sm tracking-widest font-light transition-colors duration-300 hover:opacity-70"
+              style={{ color: isScrolled ? "#2C2C2C" : "#fff" }}
             >
               RESIDENT LOGIN
             </a>
@@ -135,11 +187,10 @@ const Header = () => {
 
       {/* Full Screen Menu Overlay */}
       <div
-        className={`fixed inset-0 z-[60] transition-all duration-700 ${
-          isMenuOpen
+        className={`fixed inset-0 z-[60] transition-all duration-700 ${isMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-        }`}
+          }`}
         style={{
           background: "linear-gradient(135deg, #2C3E2E 0%, #1a2520 100%)",
         }}
@@ -173,15 +224,14 @@ const Header = () => {
                   className="overflow-hidden"
                   style={{
                     animation: isMenuOpen
-                      ? `slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) ${
-                          0.1 + index * 0.1
-                        }s both`
+                      ? `slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) ${0.1 + index * 0.1
+                      }s both`
                       : "none",
                   }}
                 >
                   <a
                     href={link.href}
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className="block text-white text-4xl font-light tracking-wide py-2 transition-all duration-300 hover:pl-4"
                     style={{
                       fontFamily: "serif",
@@ -192,23 +242,6 @@ const Header = () => {
                 </div>
               ))}
             </nav>
-
-            {/* Address */}
-            {/* <div
-              className="mt-16 text-white space-y-1"
-              style={{
-                animation: isMenuOpen
-                  ? "fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both"
-                  : "none",
-              }}
-            >
-              <p className="text-sm tracking-widest font-light">
-                1042 ATLANTIC AVENUE
-              </p>
-              <p className="text-sm tracking-widest font-light">
-                BROOKLYN, NY 11238
-              </p>
-            </div> */}
           </div>
 
           <div
@@ -311,6 +344,137 @@ const Header = () => {
           }
         }
       `}</style>
+
+      {/* Login Modal */}
+      {isLoginModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="relative bg-white rounded-lg w-full max-w-md overflow-hidden">
+            <button
+              onClick={() => setIsLoginModalOpen(false)}
+              className="absolute cursor-pointer top-4 right-4 text-gray-500 hover:text-gray-700 z-10"
+            >
+              <X size={24} />
+            </button>
+
+            <div className="p-8">
+              <div className="flex justify-center mb-6">
+                <svg
+                  width="50"
+                  height="50"
+                  viewBox="0 0 60 60"
+                  fill="none"
+                  className="text-gray-800"
+                >
+                  <path
+                    d="M20 15C25 12 30 15 30 22C30 29 25 32 20 32V15Z"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    fill="none"
+                  />
+                  <circle
+                    cx="25"
+                    cy="22"
+                    r="5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    fill="none"
+                  />
+                  <path
+                    d="M35 28C35 20 40 15 47 15C50 15 52 16 52 16"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                  <path
+                    d="M35 32C35 35 37 38 40 40C43 42 47 43 50 42"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                </svg>
+              </div>
+
+              <h2 className="text-2xl font-light text-center text-gray-800 mb-2">
+                Welcome Back
+              </h2>
+              <p className="text-sm text-gray-500 text-center mb-8">
+                Sign in to your resident portal
+              </p>
+
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div>
+                  <label className="block text-xs tracking-[0.2em] text-gray-600 mb-2">
+                    EMAIL ADDRESS
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Mail className="h-4 w-4 text-gray-400" />
+                    </div>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-1 focus:ring-gray-800"
+                      placeholder="your@email.com"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-xs tracking-[0.2em] text-gray-600">
+                      PASSWORD
+                    </label>
+                    <a
+                      href="#forgot-password"
+                      className="text-xs text-gray-500 hover:underline"
+                    >
+                      Forgot?
+                    </a>
+                  </div>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Lock className="h-4 w-4 text-gray-400" />
+                    </div>
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-1 focus:ring-gray-800"
+                      placeholder="••••••••"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`w-full cursor-pointer py-3 bg-gray-800 text-white text-sm tracking-widest font-light rounded-sm transition-colors duration-300 ${isLoading
+                      ? "opacity-70 cursor-not-allowed"
+                      : "hover:bg-gray-700"
+                    }`}
+                >
+                  {isLoading ? "SIGNING IN..." : "SIGN IN"}
+                </button>
+              </form>
+
+              <p className="mt-6 text-xs text-center text-gray-500">
+                Don't have an account?{" "}
+                <a
+                  href="#contact"
+                  className="text-gray-700 hover:underline font-medium"
+                >
+                  Contact us
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -22,6 +22,7 @@ const AmenitiesSection = () => {
 
   return (
     <section
+      id="amenities"
       ref={sectionRef}
       className="relative flex items-center overflow-hidden bg-[#F5F1E8] py-13"
     >

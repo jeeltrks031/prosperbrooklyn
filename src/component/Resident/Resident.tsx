@@ -22,6 +22,7 @@ const ResidencesSection = () => {
 
   return (
     <section
+      id="residences"
       ref={sectionRef}
       className="relative min-h-screen flex items-center overflow-hidden"
     >
@@ -47,8 +48,8 @@ const ResidencesSection = () => {
           <div className="relative z-10 px-4 sm:px-6 lg:px-16 py-20">
             <div
               className={`mb-8 text-center transition-all duration-1000 ${isInView
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
                 }`}
             >
               <span
@@ -61,8 +62,8 @@ const ResidencesSection = () => {
 
             <div
               className={`mb-12 transition-all duration-1000 delay-200 ${isInView
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
                 }`}
             >
               <h2
@@ -91,8 +92,8 @@ const ResidencesSection = () => {
 
             <div
               className={`mb-12 transition-all duration-1000 flex flex-col items-center delay-500 ${isInView
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
                 }`}
             >
               <p
@@ -117,8 +118,8 @@ const ResidencesSection = () => {
             {/* CTA Button */}
             <div
               className={`transition-all text-center duration-1000 delay-700 ${isInView
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
                 }`}
             >
               <a
@@ -137,8 +138,8 @@ const ResidencesSection = () => {
 
           <div
             className={`relative lg:h-screen transition-all duration-1200 delay-300 ${isInView
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-12"
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 translate-x-12"
               }`}
           >
             <div className="relative h-[500px] lg:h-full overflow-hidden">
